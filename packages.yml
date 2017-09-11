@@ -1,6 +1,5 @@
 ---
-- hosts: vagrant
-  remote_user: vagrant
+- hosts: "{{ vms }}"
   vars:
     package: vim, telnet, tree
   tasks:
