@@ -1,0 +1,11 @@
+---
+- hosts: vagrant
+  remote_user: vagrant
+  vars:
+    package: vim, telnet, tree
+  tasks:
+
+    - name: Install "{{ package }}"
+      yum:
+        name: '{{ package }}'
+        state: latest
