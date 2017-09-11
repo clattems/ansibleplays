@@ -1,7 +1,7 @@
 ---
-- hosts: "{{ vms }}"
+- hosts: all
   vars:
-    package: vim, telnet, tree
+    package: vim, telnet, tree, nmap
   tasks:
 
     - name: Install "{{ package }}"
