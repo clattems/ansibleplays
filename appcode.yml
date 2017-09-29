@@ -1,0 +1,70 @@
+---
+- hosts: vagrant
+  vars:
+    ports:
+      - 22
+      - 80
+      - 2222
+    sat_ports:
+      - 9090
+      - 443
+      - 80
+      - 5671
+      - 8443
+      - 53
+
+  tasks:
+
+    - name: create directory for fact
+      file:
+        path: /etc/ansible/facts.d
+        state: directory
+        mode: 0755
+
+    - name: install custom fact
+      template:
+        src: appcode.fact.j2
+        dest: /etc/ansible/facts.d/application.fact
+        mode: 0755
+
+    - name: install custom fact
+      template:
+        src: Satellite.fact.j2
+        dest: /etc/ansible/facts.d/firewalld.fact
+        mode: 0755
+
+    - name: reload ansible_local
+      setup: filter=ansible_local
+
+    - service:
+        name: firewalld
+        state: started
+        enabled: yes
+
+    - name: system wide firewall
+      firewalld:
+        port: "{{ item }}/tcp"
+        permanent: true
+        immediate: true
+        state: enabled
+      with_items: "{{ ports }}"
+
+    - name: reload ansible_local
+      setup: filter=ansible_local
+
+    - name: apache ports
+      firewalld:
+        port: 443/tcp
+        permanent: true
+        immediate: true
+        state: enabled
+      when: ansible_local.application.appcode == "Apache"
+
+    - name: Satellite ports
+      firewalld:
+        port: "{{ item }}/tcp"
+        permanent: true
+        immediate: true
+        state: enabled
+      with_items: "{{ sat_ports }}"
+      when: ansible_local.firewalld.appcode == "Satellite"

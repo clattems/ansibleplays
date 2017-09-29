@@ -1,0 +1,10 @@
+#!/bin/bash
+appcode=$(systemctl --all|grep -Fq "httpd.service")
+if [[ $appcode -eq $zero ]]; then
+  application="Apache";
+fi
+cat <<EOF
+{
+        "appcode" : "$application"
+}
+EOF
