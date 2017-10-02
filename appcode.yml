@@ -3,15 +3,25 @@
   vars:
     ports:
       - 22
-      - 80
-      - 2222
-    sat_ports:
+#     - 80
+#     - 2222
+# testing with vagrant, port 80 and 2222 not needed for prod      
+    sat_ports_tcp:
       - 9090
+      - 8140
       - 443
       - 80
+      - 5646
+      - 5647
       - 5671
+      - 8000
       - 8443
       - 53
+    sat_ports_udp:
+      - 53
+      - 67
+      - 68
+      - 69
 
   tasks:
 
@@ -60,11 +70,20 @@
         state: enabled
       when: ansible_local.application.appcode == "Apache"
 
-    - name: Satellite ports
+    - name: Satellite tcp ports
       firewalld:
         port: "{{ item }}/tcp"
         permanent: true
         immediate: true
         state: enabled
-      with_items: "{{ sat_ports }}"
+      with_items: "{{ sat_ports_tcp }}"
+      when: ansible_local.firewalld.appcode == "Satellite"
+
+    - name: Satellite udp ports
+      firewalld:
+        port: "{{ item }}/udp"
+        permanent: true
+        immediate: true
+        state: enabled
+      with_items: "{{ sat_ports_udp }}"
       when: ansible_local.firewalld.appcode == "Satellite"
