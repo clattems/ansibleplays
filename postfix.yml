@@ -10,7 +10,7 @@
     - name: install custom fact
       template:
         src: main.cf.j2
-        dest: /etc/postfix/
+        dest: /etc/postfix/main.cf
         mode: 0755
       register: postfix
 
