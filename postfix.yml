@@ -1,0 +1,25 @@
+---
+- hosts: vagrant
+  tasks:
+
+    - name: Install Postfix
+      yum:
+        name: postfix
+        state: latest
+
+    - name: install custom fact
+      template:
+        src: main.cf.j2
+        dest: /etc/postfix/
+        mode: 0755
+      register: postfix
+
+    - service:
+        name: postfix
+        state: started
+        enabled: yes
+
+    - service:
+        name: postfix
+        state: restarted
+      when: postfix.changed
