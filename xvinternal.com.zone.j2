@@ -1,0 +1,30 @@
+$TTL 86400
+@               IN      SOA     xvdcendns01.xvinternal.com. xvinternal.com. (
+
+                        2017012501      ; Serial Year,Month,Day,Version
+
+                        21600           ; Refreash
+
+                        1800            ; Retry
+
+                        604800          ; Expire
+
+                        86400           ; Minimum
+
+                        )
+; Define localhost
+
+	  	IN	NS	xvdcendns01.xvinternal.com.
+gateway    IN A 192.168.1.1
+dns        IN A 8.8.8.8
+master     IN CNAME xvdcendns01.xvinternal.com.
+client     IN A 192.168.1.150
+xvdcendns01	IN	A	192.168.1.189
+xvdcenvpn01	IN      A       192.168.1.150
+xvdrhlcht01	IN      A       192.168.1.122
+xvdrhlbug01	IN      A       192.168.1.168
+xvdrhlosm01	IN      A       192.168.1.171
+xvdrhlosn01	IN      A       192.168.1.210
+xvdrhlosm02	IN      A       192.168.1.144
+xvdrhlosn02	IN      A       192.168.1.110
+xvdrhlosn03	IN      A       192.168.1.133

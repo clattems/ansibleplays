@@ -1,0 +1,23 @@
+---
+- hosts: dns
+  tasks:
+
+  - name: zone file
+    template:
+      src: xvinternal.com.zone.j2
+      dest: /var/named/xvinternal.com.zone
+      mode: 0644
+    register: forwardzone
+
+  - name: zone file
+    template:
+      src: xvinternal.com.revzone.j2
+      dest: /var/named/xvinternal.com.revzone
+      mode: 0644
+    register: reversezone
+
+  - name: restart named
+    service:
+      name: named
+      state: restarted
+    when: (forwardzone.changed) or (reversezone.changed)

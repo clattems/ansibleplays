@@ -1,0 +1,4 @@
+---
+- hosts: rocketchat
+  roles:
+    - RocketChat.Server

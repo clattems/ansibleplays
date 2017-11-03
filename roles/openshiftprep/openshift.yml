@@ -47,3 +47,15 @@
         name: sshd
         state: restarted
       when: sshd.changed
+
+    - name: manage docker config
+      template:
+        src: docker.j2
+        dest: /etc/sysconfig/docker
+        mode: 0644
+
+    - name: manage docker storage
+      template:
+        src: docker-storage-setup.j2
+        dest: /etc/sysconfig/docker-storage-setup
+        mode: 0644
